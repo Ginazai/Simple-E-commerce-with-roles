@@ -1,20 +1,19 @@
 <?php
 session_start();
 
-if(!isset($_SESSION["user_id"]) || $_SESSION["user_id"]==null){
+if(!isset($_SESSION['user_data']["user_id"]) || $_SESSION['user_data']["user_id"]==null){
 	print "<script>alert(\"Acceso invalido!\");window.location='home.php';</script>";
 }
 
-// echo(var_dump(in_array(6, )));
 if(!isset($_POST['vista'])) {
 	if(isset($_SESSION['vista'])){
 		$vista = $_SESSION['vista'];
 	} else {
-		if(in_array(1, $_SESSION['Roles'])){
+		if($_SESSION['user_data']['roles']['admin']){
 			$vista = "tickets";
-		} elseif(in_array(2, $_SESSION['Roles'])) {
+		} elseif($_SESSION['user_data']['roles']['inventory']) {
 			$vista = "compras";
-		} elseif(in_array(6, $_SESSION['Roles'])){
+		} elseif($_SESSION['user_data']['roles']['inventory-read']){
 			$vista = "compras";
 		}
 	}

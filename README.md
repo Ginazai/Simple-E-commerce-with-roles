@@ -1,4 +1,4 @@
-<h1>Helpdesk</h1>
+<h1>E-commerce con modulo de administracion</h1>
 <p>En el estado actual, esta es una aplicacion sencilla de CRUD (create, read, update and delete) para la generacion de tickets de IT. Posteriormente se pretende implementar la funcionalidad de tienda en linea y la generacion de tickets en relacion a los productos comprados.</p>
 <h3>Entendiendo el layout</h3>
 <p>Para empezar, nos veremos por defecto en la pesta&ntilde;a de "Hogar" (siguiendo el orden de las opciones en el Navbar) donde se despliega la funcionalidad basica de la pagina para el usuario. Luego tenemos la pagina "Inicio" donde se encuentra el admon de admin (en caso de que el rol del usario loggeado sea admin), en el mismo, existe un boton para filtrar las vistas y para buscar contenido especifico, ademas de paginaci&oacute;n. Luego tenemos la opcion de "Servicios" donde esta la funcionalidad "crear" de nuestro CRUD. "Contacto" que esta actualmente deshabilitado y "Salir" que como su nombre indica es el logout. En resumen, las opciones CRUD se encuentran en: 

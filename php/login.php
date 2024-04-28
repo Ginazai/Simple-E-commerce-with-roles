@@ -1,48 +1,67 @@
 <?php
 if(!empty($_POST)){
-	if(isset($_POST["username"]) &&isset($_POST["password"])){
-		if($_POST["username"]!=""&&$_POST["password"]!=""){
+	if(isset($_POST["email"]) &&isset($_POST["password"])){
+		if($_POST["email"]!=""&&$_POST["password"]!=""){
 			try {
 				include "conexion.php";
 
-				$u_name = $_POST['username'];
+				$u_name = $_POST['email'];
 				$pwd = $_POST['password'];
 			
 				$user_id=null;
 				$user_role=array();
-				$query= $con->prepare("SELECT * FROM user WHERE email = :em and password = :pass or username = :un and password = :pass");
-				$query->execute([':un' => $u_name, ':em' => $u_name, ':pass' => $pwd]);
-				while ($r=$query->fetch(PDO::FETCH_ASSOC)) {
-					$user_id=$r["id"];
-					$user_name=$r["fullname"];
-					$username=$r["username"];
+				$query= $con->prepare("SELECT users.*, roles.*, permissions.*
+										FROM users 
+										INNER JOIN user_roles
+										ON users.user_id = user_roles.user_id
+										INNER JOIN roles
+										ON user_roles.role_id = roles.role_id
+										INNER JOIN permissions 
+										ON user_roles.permission_id = permissions.permission_id
+										WHERE users.email = :em and users.password = :pass");
+				$query->execute([':em' => $u_name, ':pass' => $pwd]);
+				$data = $query->fetchAll();
 
-					$sql2= $con->prepare("SELECT * FROM user_roles WHERE user_id= :uid");	
-					$sql2->execute([':uid' => $user_id]);
-						while ($r2=$sql2->fetch(PDO::FETCH_ASSOC)){
-							array_push($user_role, $r2['role_id']);
-						}
-					break;
+				$roles = array();
+				$i=0;
+				foreach($data as $row){
+					$permission=array(
+						"read" => $row['_read'],
+						"write" => $row['_write']
+					);
+					$roles[$row['role']] = $permission;
+					if($i == (count($data)-1)){
+						$user_data = array(
+							"user_id" => $row['user_id'],
+							"name" => $row['name'],
+							"last_name" => $row['last_name'],
+							"email" => $row['email'],
+							"dob" => $row['dob'],
+							"phone number" => $row['phone_number'],
+							"active" => $row['active'],
+							"roles" => $roles,
+						); 
+						break;
+					}
+					$i+=1;
 				}
-				if($user_id==null){
-					print "<script>alert(\"Acceso invalido.\");window.location='../home.php';</script>";
+
+				if($user_data['user_id']==null){
+					echo "<script>alert(\"Acceso invalido.\");window.location='../home.php';</script>";
 				} else{
 					session_start();
-					$_SESSION['Roles']=$user_role;
-					$_SESSION['user_name']=$user_name;
-					$_SESSION['username']=$username;
-					$_SESSION['user_id']=$user_id;
+					$_SESSION['user_data']=$user_data;
 					/**
 					 * Session log table
 					 * */
-					$session_query = $con->prepare("INSERT INTO session (username, is_active, last_activity) 
-						VALUES (:uname, :active, NOW())");
-					$session_query->execute(array(
-						':uname' => $username,
-						':active' => 1
-					));
+					// $session_query = $con->prepare("INSERT INTO session (username, is_active, last_activity) 
+					// 	VALUES (:uname, :active, NOW())");
+					// $session_query->execute(array(
+					// 	':uname' => $username,
+					// 	':active' => 1
+					// ));
 
-					print "<script>window.location='../home.php';</script>";				
+					echo "<script>window.location='../home.php';</script>";				
 				}
 			}
 			catch (Exception $e) {
@@ -52,7 +71,4 @@ if(!empty($_POST)){
 		}
 	}
 }
-
-
-
 ?>

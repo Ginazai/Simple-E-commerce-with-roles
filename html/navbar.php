@@ -18,6 +18,47 @@
       a {
         text-decoration: none !important;
       }
+      html, body {
+        height: 100%;
+      }
+
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
+
+      .card {
+        box-shadow: 3px 4px 8px 0 rgba(0, 0, 0, 0.2) !important;
+      }
+
+      .card:hover {
+        box-shadow: 3px 4px 14px 0 rgba(13, 202, 240, 0.3) !important;
+        cursor: pointer;
+        transform: scale(1.03) !important;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .nav-link:hover {
+        color:#0dcaf0 !important;
+      }
+
+      .nav-link.active {
+        color:#0dcaf0 !important;
+      }
     </style>
 
   </head>
@@ -37,15 +78,14 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav w-100 d-flex justify-content-center">
-              <?php if(isset($_SESSION["user_id"])):?>
-                <?php if(in_array(2, $_SESSION['Roles'])&&!in_array(1, $_SESSION['Roles'])&&
-                !in_array(6, $_SESSION['Roles'])):?>
+              <?php if(isset($_SESSION['user_data']['user_id'])):?>
+                <?php if($_SESSION['user_data']['roles']['inventory']['read'] == 1) :?>
                 <li class='nav-item'><a class='nav-link active text-light' href='<?= $customer_url ?>'>Catalogo</a></li>
                 <?php endif;?>
-                <?php if(in_array(6, $_SESSION['Roles']) && !in_array(1, $_SESSION['Roles'])):?>
+                <?php if(false):?>
                 <li class='nav-item'><a class='nav-link active text-light' href='<?= $index_url ?>'>Admin Compra</a></li>
                 <?php endif;?>
-              <?php if(in_array(1, $_SESSION['Roles'])):?>
+              <?php if(false):?>
               <li class='nav-item'><a class='nav-link active text-light' href='<?= $index_url ?>'>Panel de admin</a></li>
               <li class="nav-item dropdown">
                 <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,7 +105,7 @@
                 <a class="nav-link text-light" href="#">Contacto</a>
               </li> -->
               <li class="nav-item ms-auto">
-                <?= isset($_SESSION["user_id"]) ? 
+                <?= isset($_SESSION['user_data']["user_id"]) ? 
                 "<button class='btn btn-outline-info float-end mx-2'><a class='text-info' href='$logout_url' style='text-decoration: none;'>Salir</a></button>" 
                   : 
                   "<button class='btn btn-outline-info float-end' type='submit' data-bs-toggle='modal' data-bs-target='#sign-modal'>Registrarse</button>
@@ -77,7 +117,7 @@
         </div>
       </nav>
   </header>
-<?= isset($_SESSION['user_id']) ? "" : 
+<?= isset($_SESSION['user_data']['user_id']) ? "" : 
 "<!---------------------------------------------- Sign Modal ---------------------------------------------->
 <div class='modal fade' id='sign-modal' tabindex='-1' aria-labelledby='modal-label' aria-hidden='true'>
   <div class='modal-dialog modal-dialog-centered'>
@@ -91,21 +131,29 @@
           <form id='registro' class='row g-3' role='form' name='registro' action='php/registro.php' method='post'>
 
             <div class='col-12 form-floating'>
-                <input type='text' class='form-control' id='fullname' name='fullname' placeholder='Nombre Completo'>
-                <label for='fullname'>Nombre Completo</label>
+                <input type='text' class='form-control' id='name' name='name' placeholder='Nombre'>
+                <label for='name'>Nombre</label>
             </div>
 
             <div class='col-12 form-floating'>
-              <input type='text' class='form-control' id='username' name='username' placeholder='Nombre de usuario'>
-              <label for='username'>Nombre de usuario</label>
+                <input type='text' class='form-control' id='last-name' name='last-name' placeholder='Apellido'>
+                <label for='last-name'>Apellido</label>
             </div>
 
+            <div class='col-12 form-floating'>
+              <input type='date' class='form-control' id='dob' name='dob' placeholder='Fecha de nacimiento'>
+               <label for='dob'>Fecha de nacimiento</label>
+            </div>
 
             <div class='col-12 form-floating'>
               <input type='email' class='form-control' id='email' name='email' placeholder='Correo Electronico'>
                <label for='email'>Correo Electronico</label>
             </div>
 
+            <div class='input-group mb-3'>
+              <span class='input-group-text'>+507</span>
+              <input type='number' id='phone' name='phone' class='form-control' aria-label='Phone number'>
+            </div>
 
             <div class='col-12 form-floating'>
               <input type='password' class='form-control' id='password' name='password' placeholder='Contrase&ntilde;a'>
@@ -114,7 +162,7 @@
 
             <div class='col-12 form-floating'>
               <input type='password' class='form-control' id='confirm_password' name='confirm_password' placeholder='Confirmar Contrase&ntilde;a'>
-              <label for='confirm_password'>Confirmar Contrase&ntilde;a</label>
+              <label for='confirm_password'>Repetir Contrase&ntilde;a</label>
             </div>
           </form>
 
@@ -143,8 +191,8 @@
 
           <form id='login-form' class='row g-3' role='form' name='login-form' action='php/login.php' method='post'>
             <div class='form-floating'>
-              <input type='text' class='form-control' id='username' name='username' placeholder='Nombre de usuario'>
-              <label class='form-label' for='username'>Nombre de usuario o email</label>
+              <input type='text' class='form-control' id='email' name='email' placeholder='Email'>
+              <label class='form-label' for='email'>Ingrese su direccion de correo electronico</label>
             </div>
             <div class='form-floating'>
               <input type='password' class='form-control' id='password' name='password' placeholder='Contrase&ntilde;a'>

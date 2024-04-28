@@ -7,13 +7,7 @@ create table permissions(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table roles(
 	role_id int auto_increment primary key not null,
-	role varchar(50) not null,
-	permission int not null,
-
-	constraint fk_permission_role
-	foreign key (permission)
-	references permissions (permission_id)
-	on update cascade
+	role varchar(50) not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table users(
 	user_id int auto_increment primary key not null,
@@ -23,14 +17,33 @@ create table users(
 	last_name varchar(100) not null,
 	dob date not null,
 	phone_number varchar(9) not null,
-	active boolean not null, 
-	role_id int not null,
-
-	constraint fk_role_id_user
-	foreign key (role_id)
-	references roles (role_id)
-	on update cascade
+	active boolean not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table user_roles(
+	id int auto_increment primary key not null,
+	user_id int not null,
+	role_id int not null,
+	permission_id int not null,
+
+	constraint fk_user_id_role
+	foreign key (user_id)
+	references users (user_id)
+	on update cascade
+	on delete cascade,
+
+	constraint fk_permission_id_role
+	foreign key (permission_id)
+	references permissions (permission_id)
+	on update cascade
+	on delete cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE user_roles ADD UNIQUE INDEX(role_id);
+ALTER TABLE user_roles ADD constraint 
+fk_role_id_user
+foreign key (role_id)
+references roles (role_id)
+on update cascade
+on delete cascade;
 create table provinces(
 	province_id int auto_increment primary key not null,
 	province varchar(15) not null
@@ -217,3 +230,36 @@ create table data_session(
 	on delete cascade
 	on update cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table user_interests(
+	id int auto_increment primary key not null,
+	user_id int,
+	product_id int,
+
+	constraint fk_user_id_interest
+	foreign key (user_id)
+	references users (user_id)
+	on update cascade,
+
+	constraint fk_product_id_interest 
+	foreign key (product_id)
+	references inventory (product_id)
+	on update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+----------------------------------------
+---------------Triggers-----------------
+----------------------------------------
+create trigger 
+	auto_role
+	after insert 
+	on users 
+	for each row
+	insert into user_roles (user_id,role_id,permission_id)
+	values (new.user_id,2,2);
+--(not implemented yet)
+create trigger 
+	track_interests
+	after update 
+	on cart
+	for each row
+	insert into user_interests (user_id,product_id) 
+	values (cart.user_id, cart.product_id);
