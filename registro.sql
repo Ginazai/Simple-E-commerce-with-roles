@@ -91,6 +91,27 @@ create table inventory(
 	price float not null,
 	amount int not null
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table categories(
+	category_id int auto_increment primary key not null,
+	category varchar(100)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table product_categories(
+	id int auto_increment primary key not null,
+	product_id int not null,
+	category_id int not null,
+
+	constraint fk_product_id_category
+	foreign key (product_id)
+	references inventory (product_id)
+	on update cascade
+	on delete cascade,
+
+	constraint fk_category_id_product
+	foreign key (category_id)
+	references categories (category_id)
+	on update cascade
+	on delete cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table cart(
 	cart_id int auto_increment primary key not null,
 	product_id int not null,
