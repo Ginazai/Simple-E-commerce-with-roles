@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     'mensaje' => 'El ticket ha sido generado con éxito'
   ];
 
-  $config = include '../../conexion.php';
+  $config = include '../conexion.php';
 
   try {
     $sentencia = $con->prepare("INSERT INTO tickets (nombre, apellido, email, ticket, consulta)

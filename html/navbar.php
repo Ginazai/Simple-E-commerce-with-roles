@@ -78,15 +78,27 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav w-100 d-flex justify-content-center">
+              <li class="nav-item dropdown">
+                <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Articulos
+                </a>
+                <ul class="dropdown-menu">
+                 
+                    <li class="dropdown-item"><a href="">Option 1</a></li>
+                    <li class="dropdown-item"><a href="">Option 2</a></li>
+                    <li class="dropdown-item"><a href="">Option 3</a></li>                
+                  
+                </ul>
+              </li>
               <?php if(isset($_SESSION['user_data']['user_id'])):?>
                 <?php if($_SESSION['user_data']['roles']['inventory']['read'] == 1) :?>
-                <li class='nav-item'><a class='nav-link active text-light' href='<?= $customer_url ?>'>Catalogo</a></li>
+                <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Catalogo</a></li>
                 <?php endif;?>
                 <?php if(false):?>
-                <li class='nav-item'><a class='nav-link active text-light' href='<?= $index_url ?>'>Admin Compra</a></li>
+                <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Admin Compra</a></li>
                 <?php endif;?>
-              <?php if(false):?>
-              <li class='nav-item'><a class='nav-link active text-light' href='<?= $index_url ?>'>Panel de admin</a></li>
+              <?php if(isset($_SESSION['user_data']['roles']['admin'])):?>
+              <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Panel de admin</a></li>
               <li class="nav-item dropdown">
                 <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Crear nuevo...
@@ -128,7 +140,7 @@
       <div class='modal-body'>
         <div class='container-fluid justify-content-center form-signin'>
     <!--------------------------Sign-up Form -------------------------->
-          <form id='registro' class='row g-3' role='form' name='registro' action='php/registro.php' method='post'>
+          <form id='registro' class='row g-3' role='form' name='registro' action='actions/registro.php' method='post'>
 
             <div class='col-12 form-floating'>
                 <input type='text' class='form-control' id='name' name='name' placeholder='Nombre'>
@@ -189,7 +201,7 @@
       <div class='modal-body'>
         <div class='form-signin justify-content-center container-fluid'>
 
-          <form id='login-form' class='row g-3' role='form' name='login-form' action='php/login.php' method='post'>
+          <form id='login-form' class='row g-3' role='form' name='login-form' action='actions/login.php' method='post'>
             <div class='form-floating'>
               <input type='text' class='form-control' id='email' name='email' placeholder='Email'>
               <label class='form-label' for='email'>Ingrese su direccion de correo electronico</label>

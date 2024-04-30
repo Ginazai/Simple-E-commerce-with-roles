@@ -8,7 +8,6 @@ if(!empty($_POST)){
 				$u_name = $_POST['email'];
 				$pwd = $_POST['password'];
 			
-				$user_id=null;
 				$user_role=array();
 				$query= $con->prepare("SELECT users.*, roles.*, permissions.*
 										FROM users 
@@ -26,8 +25,8 @@ if(!empty($_POST)){
 				$i=0;
 				foreach($data as $row){
 					$permission=array(
-						"read" => $row['_read'],
-						"write" => $row['_write']
+						"read" => $row['_read'] == 1 ? true : false,
+						"write" => $row['_write'] == 1 ? true : false
 					);
 					$roles[$row['role']] = $permission;
 					if($i == (count($data)-1)){
@@ -46,7 +45,7 @@ if(!empty($_POST)){
 					$i+=1;
 				}
 
-				if($user_data['user_id']==null){
+				if(!isset($user_data['user_id'])){
 					echo "<script>alert(\"Acceso invalido.\");window.location='../home.php';</script>";
 				} else{
 					session_start();
@@ -54,12 +53,12 @@ if(!empty($_POST)){
 					/**
 					 * Session log table
 					 * */
-					// $session_query = $con->prepare("INSERT INTO session (username, is_active, last_activity) 
-					// 	VALUES (:uname, :active, NOW())");
-					// $session_query->execute(array(
-					// 	':uname' => $username,
-					// 	':active' => 1
-					// ));
+					$session_query = $con->prepare("INSERT INTO data_session (user_id,activity,_time) 
+						VALUES (:uid, :active, NOW())");
+					$session_query->execute(array(
+						':uid' => $_SESSION['user_data']['user_id'],
+						':active' => 1
+					));
 
 					echo "<script>window.location='../home.php';</script>";				
 				}

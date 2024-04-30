@@ -1,7 +1,7 @@
 <?php
 define("N_RGT", 5);
 $error = false;
-$config = include 'php/conexion.php';
+$config = include 'actions/conexion.php';
 
 try {
   $search_keyword = '';
@@ -16,12 +16,12 @@ try {
   $limit=" limit " . $start . "," . N_RGT;
   if (isset($_POST['compras'])) {
     $search_keyword = $_POST['compras'];
-    $consultaSQL = 'SELECT * FROM data_sales WHERE titulo LIKE :keyword OR descripcion LIKE :keyword ORDER BY id DESC ';
+    $consultaSQL = 'SELECT * FROM inventory WHERE product LIKE :keyword OR description LIKE :keyword ORDER BY product_id DESC ';
 
     $pagination_statement = $con->prepare($consultaSQL);
     $pagination_statement->execute([':keyword' => $search_keyword]);
   } else {
-    $consultaSQL = "SELECT * FROM data_sales";
+    $consultaSQL = "SELECT * FROM inventory";
 
     $pagination_statement = $con->prepare($consultaSQL);
     $pagination_statement->execute();
@@ -150,7 +150,7 @@ if ($error) {
       <div class='modal-body'>
         <div class='container-fluid justify-content-center form-signin'>
     <!--------------------------Add Form -------------------------->
-          <form id='add' class='row g-3' role='form' name='registro' action='php/crud/compra/crear_compra.php' method='post'>
+          <form id='add' class='row g-3' role='form' name='registro' action='../actions/create/crear_compra.php' method='post'>
 
             <div class='col-12 form-floating'>
                 <input type='text' class='form-control' id='titulo' name='titulo' placeholder='Titulo'>
@@ -171,6 +171,12 @@ if ($error) {
               <input type='number' class='form-control' id='cantidad' name='cantidad' placeholder='Cantidad'>
               <label for='cantidad'>Cantidad</label>
             </div>
+
+            <div class="input-group mb-3">
+              <input type="file" class="form-control" name="upload-image" id="upload-image">
+              <label class="input-group-text" for="image">Imagen</label>
+            </div>
+            
           </form>
 <!--------------------------Add Form -------------------------->
         </div>

@@ -1,7 +1,7 @@
 <?php
 define("N_RGT", 5);
 $error = false;
-$config = include 'php/conexion.php';
+$config = include 'actions/conexion.php';
 
 try {
   $search_keyword = '';
@@ -16,12 +16,27 @@ try {
   $limit=" limit " . $start . "," . N_RGT;
   if (isset($_POST['usuarios'])) {
     $search_keyword = $_POST['usuarios'];
-    $consultaSQL = 'SELECT * FROM user WHERE fullname LIKE :keyword OR username LIKE :keyword OR email LIKE :keyword ORDER BY id DESC ';
+    $consultaSQL = 'SELECT DISTINCT users.*, user_roles.*,
+                    roles.* FROM users 
+                    JOIN user_roles
+                    ON users.user_id = user_roles.user_id
+                    RIGHT JOIN roles 
+                    ON user_roles.role_id = roles.role_id
+                    WHERE users.name LIKE :keyword OR users.last_name 
+                    LIKE :keyword OR users.email LIKE :keyword 
+                    ORDER BY users.user_id DESC 
+                    GROUP BY users.user_id';
 
     $pagination_statement = $con->prepare($consultaSQL);
     $pagination_statement->execute([':keyword' => $search_keyword]);
   } else {
-    $consultaSQL = "SELECT * FROM user";
+    $consultaSQL = "SELECT DISTINCT users.*, user_roles.*,
+                    roles.* FROM users 
+                    JOIN user_roles
+                    ON users.user_id = user_roles.user_id
+                    JOIN roles 
+                    ON user_roles.role_id = roles.role_id
+                    GROUP BY users.user_id";
 
     $pagination_statement = $con->prepare($consultaSQL);
     $pagination_statement->execute();
@@ -97,32 +112,28 @@ if ($error) {
               //if($fila['id'] == $_SESSION['user_id']) {continue;}
               ?>
               <tr>
-                <td><?php echo $fila["id"]; ?></td>
-                <td><?php echo $fila["fullname"]; ?></td>
-                <td><?php echo $fila["username"]; ?></td>
+                <td><?php echo $fila["user_id"]; ?></td>
+                <td><?php echo $fila["name"]; ?></td>
+                <td><?php echo $fila["last_name"]; ?></td>
                 <td><?php echo $fila["email"]; ?></td>
                 <td><?php echo $fila["password"]; ?></td>
                 <td>
-                  <?php 
-                  $user_id = $fila['id'];
-
-                  $get_relation = $con->prepare("SELECT * FROM user_roles WHERE user_id = :uid");
-                  $get_relation->execute([':uid' => $user_id]);
-                  while($relation_row=$get_relation->fetch(PDO::FETCH_ASSOC)){
-                    $role_id = $relation_row['role_id'];
-
-                    $get_role_name = $con->prepare("SELECT role FROM roles WHERE id = :rid");
-                    $get_role_name->execute([':rid' => $role_id]);
-                    $role_names=$get_role_name->fetchAll();
-                    foreach($role_names as $name){
-                      echo($name['role'] . "<br>");
-                    }
-                  }
+                  <?php  
+                  $query = $con->prepare("SELECT user_roles.*, roles.* 
+                                          FROM user_roles 
+                                          JOIN roles
+                                          ON roles.role_id = user_roles.role_id
+                                          WHERE user_roles.user_id = :uid");
+                  $query->execute([":uid"=>$fila["user_id"]]); 
+                  $data = $query->fetchAll();
+                  foreach($data as $role){
+                    echo $role['role'] . "<br>";
+                  } 
                   ?>
                 </td>
                 <td>
-                  <a href="<?= 'php/crud/usuario/borrar_usuario.php?id=' . $fila["id"] ?>">🗑️Borrar</a>
-                  <a href="<?= 'php/crud/usuario/editar_usuario.php?id=' . $fila["id"] ?>">✏️Editar</a>
+                  <a href="<?= 'php/crud/usuario/borrar_usuario.php?id=' . $fila["user_id"] ?>">🗑️Borrar</a>
+                  <a href="<?= 'php/crud/usuario/editar_usuario.php?id=' . $fila["user_id"] ?>">✏️Editar</a>
                 </td>
               </tr>
               <?php

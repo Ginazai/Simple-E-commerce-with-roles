@@ -8,10 +8,10 @@ if (isset($_POST['submit'])) {
     'mensaje' => 'la categoria ' . $_POST['categoria'] . ' ha sido agregada con éxito'
   ];
 
-  $config = include '../../conexion.php';
+  $config = include '../conexion.php';
 
   try {
-    $sentencia = $con->prepare("INSERT INTO categorias ( categoria ) VALUES ( :ctg )");
+    $sentencia = $con->prepare("INSERT INTO categories ( category ) VALUES ( :ctg )");
     $sentencia->execute([':ctg' => $_POST['categoria']]);
 
   } catch(PDOException $error) {
@@ -21,16 +21,16 @@ if (isset($_POST['submit'])) {
 }
 
 //navbar url variable path
-$index_url = "../../../index.php";
-$home_url = "../../../home.php";
-$customer_url = "../view-only/vista_cliente.php";
+$index_url = "../../index.php";
+$home_url = "../../home.php";
+$customer_url = ".././../views/vista_cliente.php";
 $ticket_url = "../ticket/crear_ticket.php";
 $user_url = "../usuario/crear_usuario.php";
 $category_url = "crear_categoria.php";
 $logout_url = "../../logout.php";
 ?>
 
-<?php include '../../../html/navbar.php'; ?>
+<?php include '../../html/navbar.php'; ?>
 
 <?php
 if (isset($resultado)) {

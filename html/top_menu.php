@@ -1,6 +1,6 @@
 <?php
 $options = "";
-if(in_array(1, $_SESSION['Roles'])){
+if(isset($_SESSION['user_data']['roles']['admin']['read'])){
 $options .= "<option value='tickets'>Tickets</option>
             <option value='usuarios'>Usuarios</option>
             <option value='categorias'>Categorias</option>";
@@ -27,7 +27,7 @@ $vista == "categorias" ? $options = "<option value='tickets'>Tickets</option>
                                     <option value='usuarios'>Usuarios</option>
                                     <option value='categorias'>Categorias</option>";
 }
-in_array(6, $_SESSION['Roles']) ? $options .= "<option value='compras'>Compras</option>" : "";
+isset($_SESSION['user_data']['roles']['inventory']['read']) ? $options .= "<option value='compras'>Compras</option>" : "";
 // $vista == "compras" ? $options = "<option value='compras' selected>Compras</option>" : "<option value='compras' selected>Compras</option>";
 echo(
   "<div class='container'>

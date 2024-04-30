@@ -1,6 +1,6 @@
 <?php
 $error = false;
-$config = include 'php/conexion.php';
+$config = include 'actions/conexion.php';
 $vista = "tickets";
 
 try {

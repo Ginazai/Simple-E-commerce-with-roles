@@ -1,13 +1,13 @@
 <?php
 $error = false;
-$config = include 'php/conexion.php';
+$config = include 'actions/conexion.php';
 
 try {
 
   if (isset($_POST['categorias'])) {
-    $consultaSQL = "SELECT * FROM categorias WHERE categoria LIKE '%" . $_POST['categorias'] . "%'";
+    $consultaSQL = "SELECT * FROM categories WHERE category LIKE '%" . $_POST['categorias'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM categorias";
+    $consultaSQL = "SELECT * FROM categories";
   }
 
   $sentencia = $con->prepare($consultaSQL);
@@ -57,11 +57,11 @@ if ($error) {
             foreach ($categoria as $fila) {
               ?>
               <tr>
-                <td><?php echo $fila["id"]; ?></td>
-                <td><?php echo $fila["categoria"]; ?></td>
+                <td><?php echo $fila["category_id"]; ?></td>
+                <td><?php echo $fila["category"]; ?></td>
                 <td>
-                  <a href="<?= 'php/crud/categoria/borrar_categoria.php?id=' . $fila["id"] ?>">🗑️Borrar</a>
-                  <a href="<?= 'php/crud/categoria/editar_categoria.php?id=' . $fila["id"] ?>">✏️Editar</a>
+                  <a href="<?= 'actions/delete/borrar_categoria.php?id=' . $fila["category_id"] ?>">🗑️Borrar</a>
+                  <a href="<?= 'actions/edit/editar_categoria.php?id=' . $fila["category_id"] ?>">✏️Editar</a>
                 </td>
               </tr>
               <?php
