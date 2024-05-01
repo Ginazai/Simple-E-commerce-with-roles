@@ -1,5 +1,8 @@
 <?php
 session_start();
-$_SESSION['vista']="cliente";
+if(isset($_SESSION['user_data']['roles']['inventory']['write'])&&
+		$_SESSION['user_data']['roles']['inventory']['write']){
+	$_SESSION['vista']="compras";
+} else {$_SESSION['vista']="cliente";}
 header("location: ../index.php");
 ?>

@@ -108,10 +108,21 @@ create table categories(
 	category_id int auto_increment primary key not null,
 	category varchar(100)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+create table subcategories(
+	sub_id int auto_increment primary key not null,
+	name varchar(100) not null,
+	category_id int not null,
+
+	constraint fk_category_id_sub
+	foreign key (category_id)
+	references categories (category_id)
+	on delete cascade
+	on update cascade
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 create table product_categories(
 	id int auto_increment primary key not null,
 	product_id int not null,
-	category_id int not null,
+	subcategory_id int not null,
 
 	constraint fk_product_id_category
 	foreign key (product_id)
@@ -119,9 +130,9 @@ create table product_categories(
 	on update cascade
 	on delete cascade,
 
-	constraint fk_category_id_product
-	foreign key (category_id)
-	references categories (category_id)
+	constraint fk_subcategory_id_product
+	foreign key (subcategory_id)
+	references subcategories (sub_id)
 	on update cascade
 	on delete cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

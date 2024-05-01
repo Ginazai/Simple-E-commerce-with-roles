@@ -52,7 +52,7 @@ try {
   $error= $error->getMessage();
 }
 
-$titulo = isset($_POST['compras']) ? 'Lista de compras (' . $_POST['compras'] . ')' : 'Lista de compras ';
+$titulo = isset($_POST['compras']) ? 'Inventario (' . $_POST['compras'] . ')' : 'Inventario';
 ?>
 
 <?php
@@ -96,11 +96,9 @@ if ($error) {
         <thead>
           <tr>
             <th>#</th>
-            <th>Username</th>
-            <th>Titulo</th>
+            <th>Articulo</th>
             <th>Descripcion</th>
             <th>Precio</th>
-            <th>Fecha de compra</th>
             <th>Cantidad</th>
             <th>Accion</th>
           </tr>
@@ -115,11 +113,9 @@ if ($error) {
               ?>
               <tr>
                 <td><?php echo $fila["id_compra"]; ?></td>
-                <td><?php echo $fila["username"]; ?></td>
                 <td><?php echo $fila["titulo"]; ?></td>
                 <td><?php echo $fila["descripcion"]; ?></td>
                 <td><?php echo $fila["precio"]; ?></td>
-                <td><?php echo $fila["fechacompra"]; ?></td>
                 <td><?php echo $fila["cantidad"]; ?></td>
                 <td>
                   <a href="<?= 'php/crud/compra/borrar_compra.php?id=' . $fila["id_compra"] ?>">🗑️Borrar</a>

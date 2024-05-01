@@ -28,7 +28,12 @@ $vista == "categorias" ? $options = "<option value='tickets'>Tickets</option>
                                     <option value='categorias'>Categorias</option>";
 }
 isset($_SESSION['user_data']['roles']['inventory']['read']) ? $options .= "<option value='compras'>Compras</option>" : "";
-// $vista == "compras" ? $options = "<option value='compras' selected>Compras</option>" : "<option value='compras' selected>Compras</option>";
+if(isset($_SESSION['user_data']['roles']['inventory']['write'])&&
+  !isset($_SESSION['user_data']['roles']['admin']['write'])){
+  $vista == "compras" ? $options = "<option value='compras' selected>Compras</option>" 
+                                        : 
+                                    "<option value='compras'>Compras</option>";
+}
 echo(
   "<div class='container'>
     <div class='row my-3'>

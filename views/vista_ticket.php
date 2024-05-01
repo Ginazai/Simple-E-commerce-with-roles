@@ -48,11 +48,9 @@ if ($error) {
         <thead>
           <tr>
             <th>#</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-            <th># de ticket</th>
+            <th>Recibo #</th>
             <th>Consulta</th>
+            <th>Resuelto?</th>
             <th>Acciones</th>
           </tr>
         </thead>

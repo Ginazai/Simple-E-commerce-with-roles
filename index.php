@@ -11,9 +11,10 @@ if(!isset($_POST['vista'])) {
 	if(isset($_SESSION['vista'])){
 		$vista = $_SESSION['vista'];
 	} else {
-		if(isset($_SESSION['user_data']['roles']['admin'])){
+		if(isset($_SESSION['user_data']['roles']['admin']['write'])){
 			$vista = "tickets";
-		} elseif(isset($_SESSION['user_data']['roles']['inventory'])) {
+		} elseif(isset($_SESSION['user_data']['roles']['inventory']['write'])) {
+			echo $vista;
 			$vista = "compras";
 		}
 	}
@@ -71,15 +72,7 @@ $logout_url = "actions/logout.php";
 		}
 	} else{
 		require_once "html/top_menu_client.php";
-		if($vista=="cliente"){
-			$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;}
-		elseif($vista=="carrito"){
-				$_SESSION['render']=require_once "views/vista_carrito.php"; $_SESSION['vista'] = $vista;}
-		elseif($vista=="factura"){
-			$_SESSION['render']=require_once "views/vista_factura.php"; $_SESSION['vista'] = $vista;}
-		elseif($vista=="historial"){
-			$_SESSION['render']=require_once "views/vista_historial.php"; $_SESSION['vista'] = $vista;}
-		else {$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;}
+		$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;
 	}
 
 	?>

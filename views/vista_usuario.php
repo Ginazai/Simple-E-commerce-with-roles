@@ -91,14 +91,17 @@ if ($error) {
   <div class="row">
     <div class="col-md-12">
       <h2 class="mt-3"><?= $titulo ?></h2>
+        <?php if(isset($_SESSION['user_data']['roles']['admin']['write'])&&
+                      $_SESSION['user_data']['roles']['admin']['write']):?>
+         <button class='btn btn-dark' type='submit' data-bs-toggle='modal' data-bs-target='#add-user'>+ Agregar</button>
+        <?php endif; ?>
       <table class="table">
         <thead>
           <tr>
             <th>#</th>
             <th>Nombre Completo</th>
-            <th>Nombre de Usuario</th>
-            <th>Email</th>
-            <th>Password</th>
+            <th>Correo electronico</th>
+            <th>Contrase&ntilde;a</th>
             <th>Rol</th>
             <th>Acciones</th>
           </tr>
@@ -113,8 +116,7 @@ if ($error) {
               ?>
               <tr>
                 <td><?php echo $fila["user_id"]; ?></td>
-                <td><?php echo $fila["name"]; ?></td>
-                <td><?php echo $fila["last_name"]; ?></td>
+                <td><?php echo $fila["name"] . " " . $fila["last_name"]; ?></td>
                 <td><?php echo $fila["email"]; ?></td>
                 <td><?php echo $fila["password"]; ?></td>
                 <td>
@@ -150,3 +152,86 @@ if ($error) {
     </div>
   </div>
 </div>
+<?php if(isset($_SESSION['user_data']['roles']['admin']['write'])&&
+              $_SESSION['user_data']['roles']['admin']['write']):?>
+<!---------------------------------------------- Add modal ---------------------------------------------->
+<div class='modal fade' id='add-user' tabindex='-1' aria-labelledby='modal-label' aria-hidden='true'>
+  <div class='modal-dialog modal-dialog-centered'>
+    <div class='modal-content'>
+      <div class='modal-header bg-dark'>
+        <h1 class='modal-title fs-5 text-white' id='modal-label'>Agregar usuario</h1>
+      </div>
+      <div class='modal-body'>
+        <div class='container-fluid justify-content-center form-signin'>
+    <!--------------------------Add Form -------------------------->
+          <form id='user-add' class='row g-3' role='form' name='user-add' action='../actions/create/crear_usuario.php' method='post'>
+
+            <div class='form-group'>
+              <label for='fullname'>Nombre completo</label>
+              <input type='text' name='fullname' id='fullname' class='form-control'>
+            </div>
+
+            <div class='form-group'>
+              <label for='username'>Nombre de usuario</label>
+              <input type='text' name='username' id='username' class='form-control'>
+            </div>
+
+            <div class='form-group'>
+              <label>Roles</label><br>
+
+              <div class='checkbox-inline'>
+                <label>
+                  <input type='checkbox' name='Roles[admin]' value='admin'> Administrador
+                </label>
+              </div>
+
+              <div class='checkbox-inline'>
+                <label>
+                  <input type='checkbox' name='Roles[customer]' value='customer'> Cliente
+                </label>
+              </div>
+
+              <div class='checkbox-inline'>
+                <label>
+                  <input type='checkbox' name='Roles[supervisor]' value='supervisor'> Supervisor
+                </label>
+              </div>
+              
+              <div class='checkbox-inline'>
+                <label>
+                  <input type='checkbox' name='Roles[software_specialist]' value='software_specialist'> Especialista de software
+                </label>
+              </div>
+
+              <div class='checkbox-inline'>
+                <label>
+                  <input type='checkbox' name='Roles[hardware_specialist]' value='hardware_specialist'> Especialista de hardware
+                </label>
+              </div>
+            </div>
+
+            <div class='form-group'>
+              <label for='email'>Email</label>
+              <input type='email' name='email' id='email' class='form-control'>
+            </div>
+            <div class='form-group'>
+              <label for='password'>Password</label>
+              <input type='password' name='password' id='password' class='form-control'>
+            </div>
+            
+          </form>
+<!--------------------------Add Form -------------------------->
+        </div>
+      </div>
+
+      <div class='modal-footer bg-dark'>
+        <form>
+          <button type='submit' form='user-add' class='btn btn-info'>Agregar</button>
+          <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--------------------------Add modal -------------------------->
+<?php endif; ?>
