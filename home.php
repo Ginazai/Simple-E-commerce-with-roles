@@ -1,5 +1,7 @@
 <?php
 session_start();
+$config = include 'actions/conexion.php';
+$cliente_link="actions/goto_cliente.php";
 //navbar url variable path
 $home_url = "home.php";
 $index_url = "index.php";

@@ -145,7 +145,7 @@ if ($error) {
   <div class='modal-dialog modal-dialog-centered'>
     <div class='modal-content'>
       <div class='modal-header bg-dark'>
-        <h1 class='modal-title fs-5 text-white' id='modal-label'>Agregar compra</h1>
+        <h1 class='modal-title fs-5 text-white' id='modal-label'>Agregar articulo</h1>
       </div>
       <div class='modal-body'>
         <div class='container-fluid justify-content-center form-signin'>

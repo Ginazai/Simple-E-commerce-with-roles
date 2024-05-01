@@ -84,33 +84,29 @@
                 </a>
                 <ul class="dropdown-menu">
                  
-                    <li class="dropdown-item"><a href="">Option 1</a></li>
-                    <li class="dropdown-item"><a href="">Option 2</a></li>
-                    <li class="dropdown-item"><a href="">Option 3</a></li>                
+                    <?php
+                    $config;
+
+                    $query = $con->prepare("SELECT * FROM categories");
+                    $query->execute();
+                    $categories=$query->fetchAll();
+
+                    if($categories&&$query->rowCount()>0){
+                      foreach($categories as $category){
+                        $insert=$category['category'];
+                        echo "<li class='dropdown-item'><a href='$cliente_link'>$insert</a></li>";
+                      }
+                    }
+                    ?>           
                   
                 </ul>
               </li>
               <?php if(isset($_SESSION['user_data']['user_id'])):?>
-                <?php if($_SESSION['user_data']['roles']['inventory']['read'] == 1) :?>
-                <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Catalogo</a></li>
-                <?php endif;?>
                 <?php if(false):?>
                 <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Admin Compra</a></li>
                 <?php endif;?>
               <?php if(isset($_SESSION['user_data']['roles']['admin'])):?>
               <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Panel de admin</a></li>
-              <li class="nav-item dropdown">
-                <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Crear nuevo...
-                </a>
-                <ul class="dropdown-menu">
-                 
-                    <li class="dropdown-item"><a href="<?= $ticket_url  ?>">Crear ticket</a></li>
-                    <li class="dropdown-item"><a href="<?= $user_url  ?>">Crear usuario</a></li>
-                    <li class="dropdown-item"><a href="<?= $category_url ?>">Crear categoria</a></li>                
-                  
-                </ul>
-              </li>
               <?php endif;?>
               <?php endif;?>
               <!-- <li class="nav-item">

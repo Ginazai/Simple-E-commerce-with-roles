@@ -4,7 +4,7 @@ if(isset($_POST)){
 	$id_compra = $_GET['id'];
 	$amount_selected = $_POST['amount'];
 
-	include '../../conexion.php';
+	include '../conexion.php';
 
 	$get_amount = $con->prepare("SELECT * FROM data_sales WHERE id_compra = :id");
 	$get_amount->execute([':id' => $id_compra]);

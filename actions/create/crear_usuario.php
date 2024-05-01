@@ -1,10 +1,9 @@
 <?php
 session_start();
 $_SESSION['vista'] = "usuarios";
+$config = include '../conexion.php';
 
 if (isset($_POST['submit'])) {
-
-  $config = include '../../conexion.php';
   $last_element=null;
   try {
     $sentencia = $con->prepare("INSERT INTO user (fullname, username, email, password, created_at)
@@ -55,7 +54,7 @@ $category_url = "../categoria/crear_categoria.php";
 $logout_url = "../../logout.php";
 ?>
 
-<?php include '../../../html/navbar.php'; ?>
+<?php include '../../html/navbar.php'; ?>
 
 <?php
 if (isset($resultado)) {

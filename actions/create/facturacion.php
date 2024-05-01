@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../conexion.php";
+include "../conexion.php";
 
 date_default_timezone_set("America/Panama");
 $username = $_SESSION['username'];

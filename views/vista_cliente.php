@@ -90,6 +90,7 @@ if ($error) {
       }
       ?> 
       <h2 class="mt-3"><?= $titulo ?></h2>
+      <?php if(isset($_SESSION['user_data'])):?>
       <div class="row">
         <form class="my-1" id="vista" name="vista" type="post" action="php/view-only/actions/goto_cart.php">
           <button type="submit" class="btn btn-dark my-0">Carrito</button>
@@ -98,6 +99,7 @@ if ($error) {
           <button type="submit" class="btn btn-dark my-0">Historial</button>
         </form>
       </div>
+      <?php endif; ?>
       <table class="table table-hover text-center">
         <thead>
           <tr>

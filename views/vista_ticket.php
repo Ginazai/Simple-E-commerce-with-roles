@@ -5,9 +5,9 @@ $vista = "tickets";
 
 try {
   if (isset($_POST['tickets'])) {
-    $consultaSQL = "SELECT * FROM tickets WHERE ticket LIKE '%" . $_POST['tickets'] . "%'";
+    $consultaSQL = "SELECT * FROM claims WHERE issue LIKE '%" . $_POST['tickets'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM tickets";
+    $consultaSQL = "SELECT * FROM claims";
   }
 
   $sentencia = $con->prepare($consultaSQL);

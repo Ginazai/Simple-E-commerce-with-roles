@@ -1,14 +1,13 @@
 <?php
 session_start();
 $_SESSION['vista'] = "categorias";
+$config = include '../conexion.php';
 
 if (isset($_POST['submit'])) {
   $resultado = [
     'error' => false,
     'mensaje' => 'la categoria ' . $_POST['categoria'] . ' ha sido agregada con éxito'
   ];
-
-  $config = include '../conexion.php';
 
   try {
     $sentencia = $con->prepare("INSERT INTO categories ( category ) VALUES ( :ctg )");

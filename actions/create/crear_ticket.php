@@ -1,14 +1,13 @@
 <?php
 session_start();
 $_SESSION['vista'] = "tickets";
+$config = include '../conexion.php';
 
 if (isset($_POST['submit'])) {
   $resultado = [
     'error' => false,
     'mensaje' => 'El ticket ha sido generado con éxito'
   ];
-
-  $config = include '../conexion.php';
 
   try {
     $sentencia = $con->prepare("INSERT INTO tickets (nombre, apellido, email, ticket, consulta)
@@ -36,7 +35,7 @@ $category_url = "../categoria/crear_categoria.php";
 $logout_url = "../../logout.php";
 ?>
 
-<?php include '../../../html/navbar.php'; ?>
+<?php include '../../html/navbar.php'; ?>
 
 <?php
 if (isset($resultado)) {
