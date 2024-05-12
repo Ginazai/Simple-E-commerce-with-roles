@@ -37,7 +37,7 @@ create table user_roles(
 	on update cascade
 	on delete cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE user_roles ADD UNIQUE INDEX(role_id);
+ALTER TABLE user_roles ADD UNIQUE(user_id,role_id,permission_id);
 ALTER TABLE user_roles ADD constraint 
 fk_role_id_user
 foreign key (role_id)

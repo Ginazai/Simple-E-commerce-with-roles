@@ -1,33 +1,21 @@
 <?php
-$config = include '../../conexion.php';
-
-$resultado = [
-  'error' => false,
-  'mensaje' => ''
-];
+session_start();
+$config = include '../conexion.php';
 
 try {    
   $id = $_GET['id'];
-  $consultaSQL = "DELETE FROM user WHERE id =" . $id;
 
-  $sentencia = $con->prepare($consultaSQL);
-  $sentencia->execute();
+  $sentencia = $con->prepare("DELETE FROM users WHERE user_id=:id");
+  $sentencia->execute([':id'=>$id]);
 
-  $_SESSION['vista'] = "usuarios";
-  header('Location: ../../../index.php');
-
+  $_SESSION['success']="El usuario ha sido eliminado";
+  $_SESSION['vista']="usuarios";
+  header("Location: ../../index.php");
+  return;
 } catch(PDOException $error) {
-  $resultado['error'] = true;
-  $resultado['mensaje'] = $error->getMessage();
+  $_SESSION['error']=$error->getMessage();
+  $_SESSION['vista']="usuarios";
+  header("Location: ../../index.php");
+  return;
 }
 ?>
-
-<div class="container mt-2">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <?= $resultado['mensaje'] ?>
-      </div>
-    </div>
-  </div>
-</div>

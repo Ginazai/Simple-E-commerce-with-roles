@@ -61,39 +61,17 @@ try {
   $query = $consultaSQL.$limit;
   $pdo_statement = $con->prepare($query);
   isset($_POST['usuarios']) ? $pdo_statement->execute([':keyword' => $search_keyword]) : $pdo_statement->execute();
-
-  // while($row=$pdo_statement->fetch(PDO::FETCH_ASSOC)){$json_data[]=$row;}
-  // $output=json_encode($json_data, JSON_PRETTY_PRINT);
-  // echo 
-  // "<script type='text/javascript'>
-  //   console.log($output);
-  // </script>";
-
   $usuarios = $pdo_statement->fetchAll();
 
+  $all_roles=$con->prepare("SELECT * FROM roles");
+  $all_roles->execute();
+  while($roles=$all_roles->fetch(PDO::FETCH_ASSOC)){$role_names[]=$roles;};
 
 } catch(PDOException $error) {
   $error= $error->getMessage();
 }
 
 $titulo = isset($_POST['apellido']) ? 'Lista de usuarios (' . $_POST['apellido'] . ')' : 'Lista de usuarios ';
-?>
-
-<?php
-if ($error) {
-
-  echo("
-    <div class='container mt-2'>
-      <div class='row'>
-        <div class='col-md-12'>
-          <div class='alert alert-danger' role='alert'>
-            $error 
-          </div>
-        </div>
-      </div>
-    </div>");
-
-}
 ?>
 
 <div class="container">
@@ -137,13 +115,15 @@ if ($error) {
                                           WHERE user_roles.user_id = :uid");
                   $query->execute([":uid"=>$fila["user_id"]]); 
                   $data = $query->fetchAll();
+                  $active_roles=array();
                   foreach($data as $role){
-                    echo $role['role'] . "<br>";
+                    array_push($active_roles, $role['role']);
+                    echo ucfirst($role['role']) . "<br>";
                   } 
                   ?>
                 </td>
                 <td>
-                  <a href="<?= 'php/crud/usuario/borrar_usuario.php?id=' . $fila["user_id"] ?>">🗑️Borrar</a>
+                  <a href="<?= 'actions/delete/borrar_usuario.php?id=' . $fila["user_id"] ?>">🗑️Borrar</a>
                   <a href="<?= 'php/crud/usuario/editar_usuario.php?id=' . $fila["user_id"] ?>">✏️Editar</a>
                 </td>
               </tr>
@@ -177,12 +157,12 @@ if ($error) {
 
             <div class='row g-2'>
               <div class='form-floating'>
-                <input type='text' name='fullname' id='name' class='form-control' placeholder='Nombre'>
+                <input type='text' name='name' id='name' class='form-control' placeholder='Nombre'>
                 <label for='name'>Nombre</label>
               </div>
               <div class='form-floating'>
-                <input type='text' name='username' id='username' class='form-control' placeholder='Apellido'>
-                <label for='username'>Apellido</label>
+                <input type='text' name='lastname' id='lastname' class='form-control' placeholder='Apellido'>
+                <label for='lastname'>Apellido</label>
               </div>
             </div>
             <div class='form-floating'>
@@ -192,36 +172,20 @@ if ($error) {
 
             <div class='form-group'>
               <label>Roles</label><br>
-
-              <div class='checkbox-inline'>
-                <label>
-                  <input type='checkbox' name='Roles[admin]' value='admin'> Administrador
-                </label>
-              </div>
-
-              <div class='checkbox-inline'>
-                <label>
-                  <input type='checkbox' name='Roles[customer]' value='customer'> Cliente
-                </label>
-              </div>
-
-              <div class='checkbox-inline'>
-                <label>
-                  <input type='checkbox' name='Roles[supervisor]' value='supervisor'> Supervisor
-                </label>
-              </div>
-              
-              <div class='checkbox-inline'>
-                <label>
-                  <input type='checkbox' name='Roles[software_specialist]' value='software_specialist'> Especialista de software
-                </label>
-              </div>
-
-              <div class='checkbox-inline'>
-                <label>
-                  <input type='checkbox' name='Roles[hardware_specialist]' value='hardware_specialist'> Especialista de hardware
-                </label>
-              </div>
+              <?php
+              foreach($role_names as $role){
+                $name=$role['role'];
+                ?>
+                <div class='checkbox-inline'>
+                  <label>
+                    <input type='checkbox' name='Roles[<?= $name ?>]' value='<?= $name ?>'
+                    <?= in_array($name, $active_roles) ? "checked" : ""?>> 
+                    <?= ucfirst($name) ?>
+                  </label>
+                </div>
+                <?php
+              }
+              ?>
             </div>
 
             <div class='form-floating'>
@@ -239,7 +203,7 @@ if ($error) {
 
             <div class='checkbox-inline'>
               <label>
-                <input type='checkbox' name='' value=''> Active
+                <input type='checkbox' name='active' value='1'> Active
               </label>
             </div>
             
@@ -249,10 +213,8 @@ if ($error) {
       </div>
 
       <div class='modal-footer bg-dark'>
-        <form>
-          <button type='submit' form='user-add' class='btn btn-info'>Agregar</button>
-          <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
-        </form>
+        <button type='submit' form='user-add' name='form-add-submit' class='btn btn-info'>Agregar</button>
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cerrar</button>
       </div>
     </div>
   </div>
