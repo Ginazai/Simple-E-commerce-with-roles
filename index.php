@@ -39,41 +39,42 @@ $logout_url = "actions/logout.php";
 
 	if(isset($data)){
 		if(isset($data['roles']['admin']['write'])&&
-			$data['roles']['admin']['write']){
-			require_once "html/top_menu.php";
-			if($vista == "tickets") {
-			$_SESSION['render']=require_once "views/vista_ticket.php"; $_SESSION['vista'] = $vista;}
-			elseif($vista == "usuarios") {
-				$_SESSION['render']=require_once "views/vista_usuario.php"; $_SESSION['vista'] = $vista;}
-			elseif($vista == "categorias") {
-				$_SESSION['render']=require_once "views/vista_categoria.php"; $_SESSION['vista'] = $vista;} 
-			if($vista == "compras"){
-				$_SESSION['render']=require_once "views/vista_compra.php"; $_SESSION['vista'] = $vista;}
-		} elseif(isset($data['roles']['inventory']['read'])&&
+			$roles['admin']['write']){require_once "html/top_menu.php";} 
+		elseif(isset($data['roles']['inventory']['read'])&&
 				$data['roles']['inventory']['read']&&
-				!$data['roles']['inventory']['write']){
-			if($vista == "compras"){
-				require_once "html/top_menu_client.php";
-				$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;}
-			elseif($vista=="carrito"){
-				$_SESSION['render']=require_once "views/vista_carrito.php"; $_SESSION['vista'] = $vista;}
-			elseif($vista=="factura"){
-				$_SESSION['render']=require_once "views/vista_factura.php"; $_SESSION['vista'] = $vista;}
-			elseif($vista=="historial"){
-				$_SESSION['render']=require_once "views/vista_historial.php"; $_SESSION['vista'] = $vista;}
-			else {
-					$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;}
-		} elseif(isset($data['roles']['inventory']['write'])&&
+				!$data['roles']['inventory']['write']){require_once "html/top_menu_client.php";} 
+		elseif(isset($data['roles']['inventory']['write'])&&
 				$data['roles']['inventory']['write']&&
-				$data['roles']['inventory']['read']){
-			require_once "html/top_menu.php";
-			if($vista == "compras"){
-				$_SESSION['render']=require_once "views/vista_compra.php"; $_SESSION['vista'] = $vista;}
-		}
-	} else{
-		require_once "html/top_menu_client.php";
-		$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;
+				$data['roles']['inventory']['read']){require_once "html/top_menu.php";}
 	}
+
+	switch ($vista) {
+		case "tickets":
+			$_SESSION['render']=require_once "views/vista_ticket.php"; $_SESSION['vista'] = $vista;
+			break;
+		case "usuarios":
+			$_SESSION['render']=require_once "views/vista_usuario.php"; $_SESSION['vista'] = $vista;
+			break;
+		case "categorias":
+			$_SESSION['render']=require_once "views/vista_categoria.php"; $_SESSION['vista'] = $vista;
+			break;	
+		case "carrito":
+			$_SESSION['render']=require_once "views/vista_carrito.php"; $_SESSION['vista'] = $vista;
+			break;
+		case "factura":
+			$_SESSION['render']=require_once "views/vista_factura.php"; $_SESSION['vista'] = $vista;
+			break;
+		case "compras":
+			$_SESSION['render']=require_once "views/vista_compra.php"; $_SESSION['vista'] = $vista;
+			break;
+		case "historial":
+			$_SESSION['render']=require_once "views/vista_historial.php"; $_SESSION['vista'] = $vista;
+			break;	
+		default:
+			$_SESSION['render']=require_once "views/vista_cliente.php"; $_SESSION['vista'] = $vista;
+			break;
+	}
+ 
 
 	?>
 	</body>

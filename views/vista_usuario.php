@@ -61,7 +61,16 @@ try {
   $query = $consultaSQL.$limit;
   $pdo_statement = $con->prepare($query);
   isset($_POST['usuarios']) ? $pdo_statement->execute([':keyword' => $search_keyword]) : $pdo_statement->execute();
+
+  // while($row=$pdo_statement->fetch(PDO::FETCH_ASSOC)){$json_data[]=$row;}
+  // $output=json_encode($json_data, JSON_PRETTY_PRINT);
+  // echo 
+  // "<script type='text/javascript'>
+  //   console.log($output);
+  // </script>";
+
   $usuarios = $pdo_statement->fetchAll();
+
 
 } catch(PDOException $error) {
   $error= $error->getMessage();
@@ -164,16 +173,21 @@ if ($error) {
       <div class='modal-body'>
         <div class='container-fluid justify-content-center form-signin'>
     <!--------------------------Add Form -------------------------->
-          <form id='user-add' class='row g-3' role='form' name='user-add' action='../actions/create/crear_usuario.php' method='post'>
+          <form id='user-add' class='row g-3' role='form' name='user-add' action='actions/create/crear_usuario.php' method='post'>
 
-            <div class='form-group'>
-              <label for='fullname'>Nombre completo</label>
-              <input type='text' name='fullname' id='fullname' class='form-control'>
+            <div class='row g-2'>
+              <div class='form-floating'>
+                <input type='text' name='fullname' id='name' class='form-control' placeholder='Nombre'>
+                <label for='name'>Nombre</label>
+              </div>
+              <div class='form-floating'>
+                <input type='text' name='username' id='username' class='form-control' placeholder='Apellido'>
+                <label for='username'>Apellido</label>
+              </div>
             </div>
-
-            <div class='form-group'>
-              <label for='username'>Nombre de usuario</label>
-              <input type='text' name='username' id='username' class='form-control'>
+            <div class='form-floating'>
+              <input class='form-control' type='date' name='dob' id='dob' placeholder='Fecha de nacimiento'>
+              <label for='dob'>Fecha de nacimiento</label>
             </div>
 
             <div class='form-group'>
@@ -210,13 +224,23 @@ if ($error) {
               </div>
             </div>
 
-            <div class='form-group'>
-              <label for='email'>Email</label>
-              <input type='email' name='email' id='email' class='form-control'>
+            <div class='form-floating'>
+              <input type='password' name='password' id='password' class='form-control' placeholder='Contrase&ntilde;a'>
+              <label for='password'>Contrase&ntilde;a</label>
             </div>
-            <div class='form-group'>
-              <label for='password'>Password</label>
-              <input type='password' name='password' id='password' class='form-control'>
+            <div class='input-group'>
+              <span id='phone-label' class='input-group-text'>+507</span>
+              <input type='number' name='phone' id='phone' class='form-control' placeholder='Numero de telefono' aria-describedby='phone-label'>
+            </div>
+            <div class='form-floating'>
+              <input type='email' name='email' id='email' class='form-control' placeholder='Correo Electronico'>
+              <label for='email'>Correo Electronico</label>
+            </div>
+
+            <div class='checkbox-inline'>
+              <label>
+                <input type='checkbox' name='' value=''> Active
+              </label>
             </div>
             
           </form>
