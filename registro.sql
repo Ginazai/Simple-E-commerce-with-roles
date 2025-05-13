@@ -256,6 +256,13 @@ create table user_interests(
 	references inventory (product_id)
 	on update cascade
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--Default permissions
+INSERT INTO permissions(_read,_write) VALUES(1,1); 
+INSERT INTO permissions(_read,_write) VALUES(1,0); 
+INSERT INTO permissions(_read,_write) VALUES(0,0); 
+--Default roles
+INSERT INTO roles(role) VALUES('admin');
+INSERT INTO roles(role) VALUES('inventory');
 ----------------------------------------
 ---------------Triggers-----------------
 ----------------------------------------

@@ -102,9 +102,7 @@
                 </ul>
               </li>
               <?php if(isset($_SESSION['user_data']['user_id'])):?>
-                <?php if(false):?>
                 <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Admin Compra</a></li>
-                <?php endif;?>
               <?php if(isset($_SESSION['user_data']['roles']['admin'])):?>
               <li class='nav-item'><a class='nav-link text-light' href='<?= $index_url ?>'>Panel de admin</a></li>
               <?php endif;?>

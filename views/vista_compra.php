@@ -112,14 +112,14 @@ if ($error) {
               //if($fila['id'] == $_SESSION['user_id']) {continue;}
               ?>
               <tr>
-                <td><?php echo $fila["id_compra"]; ?></td>
-                <td><?php echo $fila["titulo"]; ?></td>
-                <td><?php echo $fila["descripcion"]; ?></td>
-                <td><?php echo $fila["precio"]; ?></td>
-                <td><?php echo $fila["cantidad"]; ?></td>
+                <td><?php echo $fila["product_id"]; ?></td>
+                <td><?php echo $fila["product"]; ?></td>
+                <td><?php echo $fila["description"]; ?></td>
+                <td><?php echo $fila["price"]; ?></td>
+                <td><?php echo $fila["amount"]; ?></td>
                 <td>
-                  <a href="<?= 'php/crud/compra/borrar_compra.php?id=' . $fila["id_compra"] ?>">🗑️Borrar</a>
-                  <a href="<?= 'php/crud/compra/editar_compra.php?id=' . $fila["id_compra"] ?>">✏️Editar</a>
+                  <a href="<?= 'php/crud/compra/borrar_compra.php?id=' . $fila["product_id"] ?>">🗑️Borrar</a>
+                  <a href="<?= 'php/crud/compra/editar_compra.php?id=' . $fila["product_id"] ?>">✏️Editar</a>
                 </td>
               </tr>
               <?php
@@ -146,7 +146,8 @@ if ($error) {
       <div class='modal-body'>
         <div class='container-fluid justify-content-center form-signin'>
     <!--------------------------Add Form -------------------------->
-          <form id='add' class='row g-3' role='form' name='registro' action='../actions/create/crear_compra.php' method='post'>
+          <form id='add' class='row g-3' name='registro' action='actions/create/crear_compra.php' method='post'
+          enctype='multipart/form-data'>
 
             <div class='col-12 form-floating'>
                 <input type='text' class='form-control' id='titulo' name='titulo' placeholder='Titulo'>
