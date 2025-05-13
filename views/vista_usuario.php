@@ -67,6 +67,10 @@ try {
   $all_roles->execute();
   while($roles=$all_roles->fetch(PDO::FETCH_ASSOC)){$role_names[]=$roles;};
 
+  $all_permissions=$con->prepare("SELECT * FROM permissions");
+  $all_permissions->execute();
+  while($permission=$all_permissions->fetch(PDO::FETCH_ASSOC)){$permission_names[]=$permission;};
+
 } catch(PDOException $error) {
   $error= $error->getMessage();
 }
@@ -95,7 +99,7 @@ $titulo = isset($_POST['apellido']) ? 'Lista de usuarios (' . $_POST['apellido']
         </thead>
         <tbody>
           <?php
-          if ($usuarios && $pdo_statement->rowCount() > 0) {
+          if (isset($usuarios)&&$pdo_statement->rowCount() > 0) {
             //roles selection
             foreach ($usuarios as $fila) {
               //prevent user from editing himself
@@ -108,18 +112,23 @@ $titulo = isset($_POST['apellido']) ? 'Lista de usuarios (' . $_POST['apellido']
                 <td><?php echo $fila["password"]; ?></td>
                 <td>
                   <?php  
-                  $query = $con->prepare("SELECT user_roles.*, roles.* 
+                  $query = $con->prepare("SELECT user_roles.*, roles.*, permissions.* 
                                           FROM user_roles 
                                           JOIN roles
                                           ON roles.role_id = user_roles.role_id
+                                          JOIN permissions 
+                                          ON permissions.permission_id = user_roles.permission_id
                                           WHERE user_roles.user_id = :uid");
                   $query->execute([":uid"=>$fila["user_id"]]); 
                   $data = $query->fetchAll();
                   $active_roles=array();
                   foreach($data as $role){
-                    array_push($active_roles, $role['role']);
+                    $permissions=array();
+                    $permissions['read']=$role['_read'];
+                    $permissions['write']=$role['_write'];
+                    $active_roles[$role['role']]['permissions']=$permissions;
                     echo ucfirst($role['role']) . "<br>";
-                  } 
+                  }
                   ?>
                 </td>
                 <td>
@@ -178,9 +187,21 @@ $titulo = isset($_POST['apellido']) ? 'Lista de usuarios (' . $_POST['apellido']
                 ?>
                 <div class='checkbox-inline'>
                   <label>
-                    <input type='checkbox' name='Roles[<?= $name ?>]' value='<?= $name ?>'
-                    <?= in_array($name, $active_roles) ? "checked" : ""?>> 
-                    <?= ucfirst($name) ?>
+                    <input type='checkbox' name='Roles[<?= $name ?>]' value='<?= $name ?>'> 
+                    <b><?= ucfirst($name) ?>:</b>
+                    <br>
+                    <?php
+                    foreach($permission_names as $pm){
+                      ?>
+                      <div class='checkbox-inline'>
+                        <label>
+                          <input type='checkbox' name='Roles[<?= $pm ?>]' value='<?= $pm ?>'> 
+                          <b><?= ucfirst($pm) ?>:</b>
+                        </label>
+                      </div>
+                      <?php
+                    }
+                    ?>
                   </label>
                 </div>
                 <?php
@@ -203,7 +224,7 @@ $titulo = isset($_POST['apellido']) ? 'Lista de usuarios (' . $_POST['apellido']
 
             <div class='checkbox-inline'>
               <label>
-                <input type='checkbox' name='active' value='1'> Active
+                <input type='checkbox' name='active' value='1' checked> Active
               </label>
             </div>
             

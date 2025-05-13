@@ -1,17 +1,26 @@
 <h1>E-commerce con modulo de administracion</h1>
-<p>En el estado actual, esta es una aplicacion sencilla de CRUD (create, read, update and delete) para la generacion de tickets de IT. Posteriormente se pretende implementar la funcionalidad de tienda en linea y la generacion de tickets en relacion a los productos comprados.</p>
-<h3>Entendiendo el layout</h3>
-<p>Para empezar, nos veremos por defecto en la pesta&ntilde;a de "Hogar" (siguiendo el orden de las opciones en el Navbar) donde se despliega la funcionalidad basica de la pagina para el usuario. Luego tenemos la pagina "Inicio" donde se encuentra el admon de admin (en caso de que el rol del usario loggeado sea admin), en el mismo, existe un boton para filtrar las vistas y para buscar contenido especifico, ademas de paginaci&oacute;n. Luego tenemos la opcion de "Servicios" donde esta la funcionalidad "crear" de nuestro CRUD. "Contacto" que esta actualmente deshabilitado y "Salir" que como su nombre indica es el logout. En resumen, las opciones CRUD se encuentran en: 
-<pre>
--Create/Crear: Dropdown de "Servicios"
--Read/Leer: vistas en "Inicio"
--Update/Actualizar: opcion de "Editar" (aparece en cada
-elemento de las vistas. La pantalla editar es escencialmente
-igual a la de "Crear")
--Delete/Borrar: opcion de "Borrar" (aparece en cada
-elemento de las vistas)
-</pre>
-</p>
+<p>Aplicacion CRUD con modulo administrativo orientada a un E-commerce, pensado para integrarse con diversos departamentos mediante la gestion de roles y con una estructura de dato que se adapta a la estructura demografica del pais donde fue desarrollado (Panama).</p>
+<h2>Tecnologias</h2>
+<ul>
+  <li>PHP 8.2.12</li>
+  <li>XAMPP (Apache + MySQL + PHP)</li>
+  <li>MySQL 15.1</li>
+  <li>HTML/CSS/JavaScript</li>
+  <li>Bootstrap 5.3.3</li>
+  <li>JQuery 3.7.1</li>
+</ul>
+<h2>Instalacion</h2>
+<ol>
+  <li>Clona el repositorio: <code>git clone https://github.com/Ginazai/Simple-E-commerce-with-roles.git</code></li>
+   <li>Copia el folder en el directorio <code>htdocs/</code> de XAMPP.</li>
+   <li>Crea la base de datos en phpMyAdmin usando el archivo <code>registro.sql</code>.</li>
+   <li>Inicia Apache y MySQL desde el panel de control de XAMPP.</li>
+   <li>Accede a la aplicacion en la ruta <code>http://localhost/Simple-E-commerce-with-roles/index.php</code>.</li>
+</ol>
+<h2>Estado</h2>
+<b>Finalizado</b>.<br>
+Una mejor implementacion es un API para gestionar la base de datos y un middleware para facilitar la comunicacion de la pagina con el API. Lo anteriormente dicho podria ser un proyecto a futuro con tecnologia mas moderna como Laravel.
+<h2>Galeria</h2>
 <h3>Hogar</h3>
 <img width="100%" src="https://github.com/Ginazai/proyecto-final-p4/assets/67808421/6e498410-a37f-4c2f-9325-07d9ad0af212">
 <h3>Inicio</h3>

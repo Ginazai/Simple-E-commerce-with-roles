@@ -21,23 +21,23 @@ if (isset($_POST['form-add-submit'])) {
     $last_element = $con->lastInsertId();
     $last_element = intval($last_element);
 
-    // if(isset($_POST['Roles'])){
-    //   $selected_roles = $_POST['Roles'];
-    //     foreach($selected_roles as $role) {
-    //       //getting the role id
-    //       $stmt_roles = $con->prepare("SELECT id FROM roles WHERE role = :role");
-    //       $stmt_roles->execute([':role' => $role]);
-    //       $role_row = $stmt_roles->fetch(PDO::FETCH_ASSOC);
-    //       $role_id = $role_row['id'];
+    if(isset($_POST['Roles'])){
+      $selected_roles = $_POST['Roles'];
+        foreach($selected_roles as $role) {
+          //getting the role id
+          $stmt_roles = $con->prepare("SELECT id FROM roles WHERE role = :role");
+          $stmt_roles->execute([':role' => $role]);
+          $role_row = $stmt_roles->fetch(PDO::FETCH_ASSOC);
+          $role_id = $role_row['role_id'];
 
-    //       //inserting into users_roles
-    //       $stmt_users = $con->prepare("INSERT INTO user_roles (user_id, role_id) VALUES (:uid, :rid)");
-    //       $stmt_users->execute([
-    //         ':uid' => $last_element,
-    //         ':rid' => $role_id
-    //       ]);
-    //     }
-    // }
+          //inserting into users_roles
+          $stmt_users = $con->prepare("INSERT INTO user_roles (user_id,role_id) VALUES (:uid,:rid)");
+          $stmt_users->execute([
+            ':uid' => $last_element,
+            ':rid' => $role_id
+          ]);
+        }
+    }
     $_SESSION['success']="Usuario creado exitosamente";
     $_SESSION['vista']="usuarios";
     header("Location: ../../index.php");

@@ -1,6 +1,6 @@
 <?php
 $host="localhost";
-$user="";
+$user="root";
 $password="";
 $db="e_commerce_admin_module";
 

@@ -1,4 +1,4 @@
-create database e_commerce_admin_module;
+create database if not exists e_commerce_admin_module;
 use e_commerce_admin_module;
 create table permissions(
 	permission_id int auto_increment primary key not null,
