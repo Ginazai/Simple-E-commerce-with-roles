@@ -25,7 +25,7 @@ Una mejor implementacion es un API para gestionar la base de datos y un middlewa
   <img width="100%" src="https://github.com/user-attachments/assets/197dde34-7911-4e22-a6a7-021735b78945">
   <figcaption>Fig.1: Modelo relacional</figcaption>
 </figure>
-<figure>
+<!-- <figure>
   <img width="100%" src="https://github.com/Ginazai/proyecto-final-p4/assets/67808421/6e498410-a37f-4c2f-9325-07d9ad0af212">
   <figcaption>Fig.2: Home page</figcaption>
 </figure>
@@ -61,3 +61,4 @@ Una mejor implementacion es un API para gestionar la base de datos y un middlewa
   <img width="100%" src="https://github.com/Ginazai/proyecto-final-p4/assets/67808421/73d5d30c-698a-48fc-8681-a89b1b64de35">
   <figcaption>Fig.9: Leer/Actualizar/Borrar</figcaption>
 </figure>
+ -->
