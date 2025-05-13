@@ -35,7 +35,6 @@ Una mejor implementacion es un API para gestionar la base de datos y un middlewa
 </figure>
 <h3>Usuarios (CRUD)</h3>
 <p>Esta es la operacion con mayor complejidad. Posee aspectos refinados en el CRUD como la comprobacion de actualizacion de datos en el form, el monitoreo de la data que es actualizada y la asignacion de roles de usuario. (Vease el archivo <code>actions/create/crear_usuario.php</code>)</p>
-<h6>Crear</h6>
 <figure>
  <img width="100%" src="https://github.com/Ginazai/proyecto-final-p4/assets/67808421/d97bad76-7cea-46a5-bb23-f13b8e34dfbb">
   <figcaption>Fig.4: Crear</figcaption>
@@ -59,6 +58,6 @@ Una mejor implementacion es un API para gestionar la base de datos y un middlewa
   <figcaption>Fig.8: Crear</figcaption>
 </figure>
 <figure>
-  <img width="50%" src="https://github.com/Ginazai/proyecto-final-p4/assets/67808421/73d5d30c-698a-48fc-8681-a89b1b64de35">
+  <img width="100%" src="https://github.com/Ginazai/proyecto-final-p4/assets/67808421/73d5d30c-698a-48fc-8681-a89b1b64de35">
   <figcaption>Fig.9: Leer/Actualizar/Borrar</figcaption>
 </figure>
